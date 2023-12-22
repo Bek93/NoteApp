@@ -20,6 +20,11 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
     }
 
     @Override
+    protected int backButtonDrawable() {
+        return R.drawable.ic_back;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Registration");
