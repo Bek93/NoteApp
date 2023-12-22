@@ -3,6 +3,7 @@ package com.beknumonov.noteapp2.base;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,16 +47,25 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
                 if (backButtonDrawable() != 0)
                     getSupportActionBar().setHomeAsUpIndicator(backButtonDrawable());
             }
+
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
         }
+
+
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == android.R.id.home) {
+//            finish();
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }
