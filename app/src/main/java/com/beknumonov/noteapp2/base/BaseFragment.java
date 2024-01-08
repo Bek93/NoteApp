@@ -13,9 +13,15 @@ import androidx.viewbinding.ViewBinding;
 public abstract class BaseFragment<VB extends ViewBinding> extends Fragment {
 
     protected VB binding;
+    protected BaseActivity parent;
 
     protected abstract VB inflateViewBinding(LayoutInflater inflater, ViewGroup parent, boolean toAttachRoot);
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        parent = (BaseActivity) getActivity();
+    }
 
     @Nullable
     @Override

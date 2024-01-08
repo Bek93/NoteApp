@@ -21,8 +21,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("NoteAppSharedPref", MODE_PRIVATE);
-        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        boolean isLoggedIn = (boolean) preferencesManager.getValue(Boolean.class, "isLoggedIn", false);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -34,6 +33,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
                     Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
+                finish();
             }
         }, 3000);
     }

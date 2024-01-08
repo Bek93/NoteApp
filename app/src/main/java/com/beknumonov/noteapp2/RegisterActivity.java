@@ -61,19 +61,23 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
                 }
                 if (password.equals(confirmPassword)) {
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("NoteAppSharedPref", MODE_PRIVATE);
+//                    SharedPreferences sharedPreferences = getSharedPreferences("NoteAppSharedPref", MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.putString("firstName", firstname);
+//                    editor.putString("lastName", lastname);
+//                    editor.putString("email", email);
+//                    editor.putString("password", password);
+//                    editor.putBoolean("isLoggedIn", true);
 
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("firstName", firstname);
-                    editor.putString("lastName", lastname);
-                    editor.putString("email", email);
-                    editor.putString("password", password);
-                    editor.putBoolean("isLoggedIn", true);
+                    preferencesManager.setValue("firstName", firstname);
+                    preferencesManager.setValue("lastName", lastname);
+                    preferencesManager.setValue("email", email);
+                    preferencesManager.setValue("password", password);
+                    preferencesManager.setValue("isLoggedIn", true);
 
-                    if (editor.commit()) {
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    startActivity(intent);
+
                 } else {
 
                 }

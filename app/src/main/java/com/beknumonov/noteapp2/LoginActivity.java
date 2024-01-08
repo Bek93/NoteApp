@@ -27,9 +27,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             public void onClick(View v) {
                 String email = binding.emailEditText.getText().toString();
                 String password = binding.passwordEditText.getText().toString();
-                SharedPreferences sharedPreferences = getSharedPreferences("NoteAppSharedPref", MODE_PRIVATE);
-                String emailFromSh = sharedPreferences.getString("email", "");
-                String passwordFromSh = sharedPreferences.getString("password", "");
+                //SharedPreferences sharedPreferences = getSharedPreferences("NoteAppSharedPref", MODE_PRIVATE);
+                String emailFromSh = (String) preferencesManager.getValue(String.class, "email", "");
+                String passwordFromSh = (String)
+                        preferencesManager.getValue(String.class, "password", "");
 
                 if (email.equals(emailFromSh) && password.equals(passwordFromSh)) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);

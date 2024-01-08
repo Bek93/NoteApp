@@ -12,6 +12,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewbinding.ViewBinding;
 
 import com.beknumonov.noteapp2.R;
+import com.beknumonov.noteapp2.db.DatabaseHelper;
+import com.beknumonov.noteapp2.util.PreferencesManager;
 
 
 public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActivity {
@@ -29,13 +31,18 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
         return 0;
     }
 
+
+    public PreferencesManager preferencesManager;
+    public DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = inflateViewBinding(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        preferencesManager = PreferencesManager.getInstance(getApplicationContext());
+        databaseHelper = new DatabaseHelper(this);
         Toolbar toolbar = (binding.getRoot()).findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
