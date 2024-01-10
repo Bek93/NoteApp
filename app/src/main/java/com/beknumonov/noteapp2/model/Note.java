@@ -1,6 +1,8 @@
 package com.beknumonov.noteapp2.model;
 
-public class Note {
+import java.io.Serializable;
+
+public class Note implements Serializable {
 
 
     private Integer id;
