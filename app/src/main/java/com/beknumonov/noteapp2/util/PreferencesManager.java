@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.beknumonov.noteapp2.BuildConfig;
+import com.beknumonov.noteapp2.model.User;
+import com.google.gson.Gson;
 
 public class PreferencesManager implements PreferenceHelper {
 
@@ -27,25 +29,41 @@ public class PreferencesManager implements PreferenceHelper {
     }
 
 
+    // setValue accept two variables: Key as String, Value as Object (Object can be String, Boolean, etc)
     @Override
     public void setValue(String key, Object value) {
-
+        // checking value type:
         if (value.getClass().equals(String.class)) {
+            // if it is String, save as String
             mPreference.edit().putString(key, (String) value).apply();
+            // mPreference is instance of PreferenceManager which created in first time call.
+            // it is static variables which value is set during runtime.
+            // it can be life during application's runtime.
         } else if (value.getClass().equals(Boolean.class)) {
+            // else if it is Boolean, save as Boolean.
             mPreference.edit().putBoolean(key, (Boolean) value).apply();
+        } else if (value.getClass().equals(User.class)) {
+
+            String json = new Gson().toJson((User) value);
+            setValue(key, json);
         }
     }
 
     @Override
-    public <T> Object getValue(Class<T> tClass, String key, Object defaulValue) {
+    public <T> Object getValue(Class<T> tClass, String key, Object defaultValue) {
         if (tClass.equals(String.class)) {
-            return mPreference.getString(key, (String) defaulValue);
+            return mPreference.getString(key, (String) defaultValue);
         } else if (tClass.equals(Boolean.class)) {
-            return mPreference.getBoolean(key, (Boolean) defaulValue);
+            return mPreference.getBoolean(key, (Boolean) defaultValue);
+        } else if (tClass.equals(User.class)) {
+            String json = mPreference.getString(key, "");
+            if (!json.isEmpty()) {
+                User user = new Gson().fromJson(json, User.class);
+                return user;
+            }
         }
 
-        return defaulValue;
+        return defaultValue;
     }
 
     @Override

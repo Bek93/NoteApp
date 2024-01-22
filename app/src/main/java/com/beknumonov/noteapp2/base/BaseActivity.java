@@ -13,7 +13,13 @@ import androidx.viewbinding.ViewBinding;
 
 import com.beknumonov.noteapp2.R;
 import com.beknumonov.noteapp2.db.DatabaseHelper;
+import com.beknumonov.noteapp2.remote.MainApi;
 import com.beknumonov.noteapp2.util.PreferencesManager;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActivity {
@@ -32,15 +38,18 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
     }
 
 
+    private LoadingBarDialog dialog;
     public PreferencesManager preferencesManager;
     public DatabaseHelper databaseHelper;
+
+    public MainApi mainApi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = inflateViewBinding(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        dialog = new LoadingBarDialog(this);
         preferencesManager = PreferencesManager.getInstance(getApplicationContext());
         databaseHelper = new DatabaseHelper(this);
         Toolbar toolbar = (binding.getRoot()).findViewById(R.id.toolbar);
@@ -64,6 +73,37 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
         }
 
 
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient().newBuilder().addInterceptor(logging).build();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://api.note-app.beknumonov.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+
+        mainApi = retrofit.create(MainApi.class);
+
+
+    }
+
+    public void showLoading() {
+        if (!dialog.isShowing())
+            dialog.show();
+    }
+
+    public void hideLoading() {
+        dialog.hide();
+    }
+
+    public String getBearerToken() {
+        String access_token = (String) preferencesManager.getValue(String.class, "access_token", "");
+        String bearerToken = "Bearer " + access_token;
+        return bearerToken;
     }
 
 //

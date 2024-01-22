@@ -10,6 +10,10 @@ import com.beknumonov.noteapp2.base.BaseActivity;
 import com.beknumonov.noteapp2.databinding.ActivityAddNewNoteBinding;
 import com.beknumonov.noteapp2.model.Note;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AddNoteActivity extends BaseActivity<ActivityAddNewNoteBinding> {
 
     private Note note;
@@ -43,13 +47,34 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewNoteBinding> {
                 String content = binding.contentEditText.getText().toString();
                 if (note == null) {
                     Note note = new Note(title, content);
-                    databaseHelper.addNote(note, false);
+                    //databaseHelper.addNote(note, false);
+
+
+                    Call<Note> call = mainApi.createNote(getBearerToken(), note);
+                    showLoading();
+                    call.enqueue(new Callback<Note>() {
+                        @Override
+                        public void onResponse(Call<Note> call, Response<Note> response) {
+                            hideLoading();
+                            if (response.isSuccessful()) {
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Note> call, Throwable t) {
+                            hideLoading();
+                            finish();
+                        }
+                    });
+
+
                 } else {
                     note.setTitle(title);
                     note.setContent(content);
-                    databaseHelper.updateNote(note);
+                    //databaseHelper.updateNote(note);
                 }
-                finish();
+
 
             }
         });
