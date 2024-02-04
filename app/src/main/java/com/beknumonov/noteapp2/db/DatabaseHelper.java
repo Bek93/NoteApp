@@ -87,17 +87,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = getWritableDatabase();
         String updateSql = "UPDATE " + Note.Entry.TABLE_NAME + " SET " + Note.Entry.TITLE + "= '" + note.getTitle() + "', " + Note.Entry.CONTENT + "='" + note.getContent() + "'" +
                 " WHERE ID=" + note.getId();
-
         db.execSQL(updateSql);
-
-
         db.close();
-
     }
 
     public void deleteNote(Note note) {
         db = getWritableDatabase();
-
         String deleteSQL = "DELETE FROM " + Note.Entry.TABLE_NAME + " WHERE ID=" + note.getId();
         db.execSQL(deleteSQL);
         db.close();

@@ -1,5 +1,8 @@
 package com.beknumonov.noteapp2.base;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -7,8 +10,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.viewbinding.ViewBinding;
 
 import com.beknumonov.noteapp2.R;
@@ -80,7 +85,7 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.note-app.beknumonov.com")
+                .baseUrl("http://api.note.annyong.store")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -104,6 +109,15 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
         String access_token = (String) preferencesManager.getValue(String.class, "access_token", "");
         String bearerToken = "Bearer " + access_token;
         return bearerToken;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    public void checkNotificationPermission() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1000);
+        }
+
     }
 
 //

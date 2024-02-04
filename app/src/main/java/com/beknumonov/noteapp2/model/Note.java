@@ -1,5 +1,6 @@
 package com.beknumonov.noteapp2.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class Note implements Serializable {
     private String content;
     @SerializedName("created_at")
     private String createdAt;
+
 
 
     public Note(String title, String content) {

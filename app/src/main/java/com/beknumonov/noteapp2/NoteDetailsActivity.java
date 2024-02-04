@@ -11,9 +11,12 @@ import com.beknumonov.noteapp2.base.BaseActivity;
 import com.beknumonov.noteapp2.databinding.ActivityNoteDetailsBinding;
 import com.beknumonov.noteapp2.model.Note;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class NoteDetailsActivity extends BaseActivity<ActivityNoteDetailsBinding> {
     private Note note;
-
 
 
     @Override
@@ -53,8 +56,23 @@ public class NoteDetailsActivity extends BaseActivity<ActivityNoteDetailsBinding
         binding.removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.deleteNote(note);
-                finish();
+                //databaseHelper.deleteNote(note);
+                //finish();
+
+                showLoading();
+                Call<Void> call = mainApi.deleteNote(getBearerToken(), note.getId());
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        hideLoading();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        hideLoading();
+                    }
+                });
             }
         });
     }

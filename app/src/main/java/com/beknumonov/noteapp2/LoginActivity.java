@@ -1,7 +1,9 @@
 package com.beknumonov.noteapp2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,9 @@ import com.beknumonov.noteapp2.base.BaseActivity;
 import com.beknumonov.noteapp2.databinding.ActivityLoginBinding;
 import com.beknumonov.noteapp2.model.User;
 import com.google.gson.Gson;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +33,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotificationPermission();
+        }
 
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +80,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 //                                preferencesManager.setValue("first_name", user.getFirstName());
 //                                preferencesManager.setValue("last_name", user.getLastName());
 
+                                saveToFile(user.getAccess());
                                 preferencesManager.setValue("user", user);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
@@ -99,5 +108,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 startActivity(intent);
             }
         });
+    }
+
+    private void saveToFile(String access_token) {
+        String filename = "my_access_token.txt";
+
+        FileOutputStream out;
+        try {
+            out = openFileOutput(filename, Context.MODE_PRIVATE);
+            out.write(access_token.getBytes());
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

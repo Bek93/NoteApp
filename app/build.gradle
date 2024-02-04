@@ -1,5 +1,8 @@
 plugins {
     id 'com.android.application'
+
+    // push notification
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -42,10 +45,23 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
+
     //Retrofit - library for internet connection
     implementation 'com.squareup.retrofit2:retrofit:2.9.0' // internet connection
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // convert JSON to Java Object or vice verse.
 
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.2")
+
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    // Skip this if you don't want to use integration libraries or configure Glide.
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:32.7.1')
+    implementation("com.google.firebase:firebase-messaging")
+
 
 }

@@ -62,7 +62,7 @@ public class NoteListAdapter extends BaseRecyclerAdapter {
         }
 
         @Override
-        protected void onBind(int position) {
+        public void onBind(int position) {
             Note note = noteArrayList.get(position);
             binding.noteTitleTv.setText(String.valueOf(note.getId()) + ". " + note.getTitle());
             binding.noteContentTv.setText(note.getContent());

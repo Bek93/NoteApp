@@ -15,5 +15,5 @@ public abstract class BaseViewHolder<VB extends ViewBinding> extends RecyclerVie
         this.binding = binding;
     }
 
-    protected abstract void onBind(int position);
+    public abstract void onBind(int position);
 }

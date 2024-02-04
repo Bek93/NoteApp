@@ -1,6 +1,7 @@
 package com.beknumonov.noteapp2;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -73,6 +74,23 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewNoteBinding> {
                     note.setTitle(title);
                     note.setContent(content);
                     //databaseHelper.updateNote(note);
+                    showLoading();
+                    Call<Note> call = mainApi.updateNote(getBearerToken(), note.getId(), note);
+
+                    call.enqueue(new Callback<Note>() {
+                        @Override
+                        public void onResponse(Call<Note> call, Response<Note> response) {
+                            hideLoading();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Note> call, Throwable t) {
+                            hideLoading();
+                            Log.d("Error", t.getMessage());
+                        }
+                    });
+
                 }
 
 
