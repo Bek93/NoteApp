@@ -15,6 +15,7 @@ import com.beknumonov.noteapp2.AddNoteActivity;
 import com.beknumonov.noteapp2.adapters.NoteListAdapter;
 import com.beknumonov.noteapp2.base.BaseFragment;
 import com.beknumonov.noteapp2.base.LoadingBarDialog;
+import com.beknumonov.noteapp2.base.RequestCallback;
 import com.beknumonov.noteapp2.databinding.FragmentNotesBinding;
 import com.beknumonov.noteapp2.databinding.FragmentProfileBinding;
 import com.beknumonov.noteapp2.model.Note;
@@ -73,12 +74,12 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         }
 
 
-        Call<ArrayList<Note>> call = parent.mainApi.getNotes(parent.getBearerToken());
+        Call<ArrayList<Note>> call = parent.mainApi.getNotes();
 
         //call.execute();
 
         parent.showLoading();
-        call.enqueue(new Callback<ArrayList<Note>>() {
+        /*call.enqueue(new Callback<ArrayList<Note>>() {
             @Override
             public void onResponse(Call<ArrayList<Note>> call, Response<ArrayList<Note>> response) {
                 parent.hideLoading();
@@ -94,6 +95,23 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
             @Override
             public void onFailure(Call<ArrayList<Note>> call, Throwable t) {
+                parent.hideLoading();
+                Log.e("Error", t.getLocalizedMessage());
+            }
+        });*/
+
+        call.enqueue(new RequestCallback<ArrayList<Note>>() {
+            @Override
+            protected void onResponseSuccess(Call<ArrayList<Note>> call, Response<ArrayList<Note>> response) {
+                parent.hideLoading();
+                noteArrayList.clear();
+                ArrayList<Note> notes = response.body();
+                noteArrayList.addAll(notes);
+                noteListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onResponseFail(Call<ArrayList<Note>> call, Throwable t) {
                 parent.hideLoading();
                 Log.e("Error", t.getLocalizedMessage());
             }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,6 +62,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             }
         });
         registerDeviceToken();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotificationPermission();
+        }
+
         //generateNotes();
     }
 
@@ -70,17 +76,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             @Override
             public void onComplete(@NonNull Task<String> task) {
                 if (task.isSuccessful()) {
+
+
                     User p_user = (User) preferencesManager.getValue(User.class, "user", null);
                     if (p_user == null)
                         return;
                     String device_token = (String) preferencesManager.getValue(String.class, "device_token", "");
+                    Log.d("Device token", device_token);
                     deviceToken = task.getResult();
                     if (!device_token.equals(deviceToken)) {
                         // only device token
                         User user = new User();
                         user.setDeviceToken(deviceToken);
 
-                        Call<User> call = mainApi.registerDeviceToken(getBearerToken(), p_user.getId(), user);
+                        Call<User> call = mainApi.registerDeviceToken(p_user.getId(), user);
                         call.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {

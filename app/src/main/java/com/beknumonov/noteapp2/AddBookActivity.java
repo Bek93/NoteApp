@@ -78,7 +78,7 @@ public class AddBookActivity extends BaseActivity<ActivityAddBookBinding> {
                 RequestBody imageRb = RequestBody.create(MediaType.parse(mediaType), selectFile);
                 MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", selectFile.getName(), imageRb);
 
-                Call<Book> call = mainApi.createBook(getBearerToken(), titleRb, descriptionRb, imagePart);
+                Call<Book> call = mainApi.createBook( titleRb, descriptionRb, imagePart);
 
                 showLoading();
                 call.enqueue(new Callback<Book>() {

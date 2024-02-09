@@ -108,6 +108,8 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
                             if (response.isSuccessful()) {
                                 preferencesManager.setValue("isLoggedIn", true);
                                 preferencesManager.setValue("user", response.body());
+                                preferencesManager.setValue("email", user.getEmail());
+                                preferencesManager.setValue("password", password);
                                 preferencesManager.setValue("access_token", response.body().getAccessToken());
                                 preferencesManager.setValue("device_token", deviceToken);
 

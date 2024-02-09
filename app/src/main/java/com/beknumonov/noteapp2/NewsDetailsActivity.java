@@ -39,6 +39,15 @@ public class NewsDetailsActivity extends BaseActivity<ActivityNewsDetailsBinding
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        news = (News) getIntent().getSerializableExtra("news");
+        if (news != null) {
+            binding.title.setText(news.getTitle());
+            binding.content.setText(news.getContent());
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

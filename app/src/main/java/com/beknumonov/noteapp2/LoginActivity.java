@@ -76,7 +76,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                             if (user != null) {
                                 preferencesManager.setValue("isLoggedIn", true);
                                 preferencesManager.setValue("access_token", user.getAccess());
-//                                preferencesManager.setValue("email", user.getEmail());
+                                preferencesManager.setValue("email", user.getEmail());
+                                preferencesManager.setValue("password", password);
 //                                preferencesManager.setValue("first_name", user.getFirstName());
 //                                preferencesManager.setValue("last_name", user.getLastName());
 

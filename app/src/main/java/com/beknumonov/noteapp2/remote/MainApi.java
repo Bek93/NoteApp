@@ -37,43 +37,43 @@ public interface MainApi {
 
 
     @GET("/v1/user/")
-    Call<ArrayList<User>> getUserList(@Header("Authorization") String accessToken);
+    Call<ArrayList<User>> getUserList();
 
     @PUT("/v1/user/{id}/")
-    Call<User> registerDeviceToken(@Header("Authorization") String bearerToken, @Path("id") int userId, @Body User user);
+    Call<User> registerDeviceToken(@Path("id") int userId, @Body User user);
 
     @GET("/v1/note/")
 // endpoint: base_url/v1/note/
-    Call<ArrayList<Note>> getNotes(@Header("Authorization") String bearerToken);
+    Call<ArrayList<Note>> getNotes();
     // return type: ArrayList<Note> -> Notes.
 
 
     @POST("/v1/note/")
-    Call<Note> createNote(@Header("Authorization") String bearerToken, @Body Note note);
+    Call<Note> createNote( @Body Note note);
 
 
     @GET("/v1/note/{id}/")
-    Call<Note> getNote(@Header("Authorization") String bearerToken, @Path("id") int noteId);
+    Call<Note> getNote(@Path("id") int noteId);
 
 
     @PUT("/v1/note/{id}/")
-    Call<Note> updateNote(@Header("Authorization") String bearerToken, @Path("id") int noteId, @Body Note note);
+    Call<Note> updateNote( @Path("id") int noteId, @Body Note note);
 
     @DELETE("/v1/note/{id}/")
-    Call<Void> deleteNote(@Header("Authorization") String bearerToken, @Path("id") int noteId);
+    Call<Void> deleteNote( @Path("id") int noteId);
 
     // News
 
     @GET("/v1/news/")
-    Call<ArrayList<News>> getNews(@Header("Authorization") String bearerToken, @Query("page") int page);
+    Call<ArrayList<News>> getNews(@Query("page") int page);
 
 
     @POST("/v1/news/{id}/share/")
-    Call<String> shareNews(@Header("Authorization") String bearerToken, @Path("id") int newsId, @Body JsonObject body);
+    Call<String> shareNews( @Path("id") int newsId, @Body JsonObject body);
 
     @Multipart
     @POST("/v1/book/")
-    Call<Book> createBook(@Header("Authorization") String bearerToken,
+    Call<Book> createBook(
                           @Part("title") RequestBody title,
                           @Part("description") RequestBody description,
                           @Part MultipartBody.Part image

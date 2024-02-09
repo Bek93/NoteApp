@@ -51,7 +51,7 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewNoteBinding> {
                     //databaseHelper.addNote(note, false);
 
 
-                    Call<Note> call = mainApi.createNote(getBearerToken(), note);
+                    Call<Note> call = mainApi.createNote(note);
                     showLoading();
                     call.enqueue(new Callback<Note>() {
                         @Override
@@ -75,7 +75,7 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewNoteBinding> {
                     note.setContent(content);
                     //databaseHelper.updateNote(note);
                     showLoading();
-                    Call<Note> call = mainApi.updateNote(getBearerToken(), note.getId(), note);
+                    Call<Note> call = mainApi.updateNote(note.getId(), note);
 
                     call.enqueue(new Callback<Note>() {
                         @Override

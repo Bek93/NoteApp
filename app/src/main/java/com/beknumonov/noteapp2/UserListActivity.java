@@ -44,7 +44,7 @@ public class UserListActivity extends BaseActivity<ActivityUserListBinding> {
         binding.userRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         binding.userRecyclerView.setAdapter(adapter);
         String access_token = "Bearer " + preferencesManager.getValue(String.class, "access_token", "");
-        Call<ArrayList<User>> call = mainApi.getUserList(access_token);
+        Call<ArrayList<User>> call = mainApi.getUserList();
 
         call.enqueue(new Callback<ArrayList<User>>() {
             @Override
@@ -73,7 +73,7 @@ public class UserListActivity extends BaseActivity<ActivityUserListBinding> {
             body.addProperty("type", "notification");
             //body.addProperty("type", "data");
 
-            Call<String> call = mainApi.shareNews(getBearerToken(), newsId, body);
+            Call<String> call = mainApi.shareNews(newsId, body);
 
             call.enqueue(new Callback<String>() {
                 @Override

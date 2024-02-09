@@ -60,7 +60,7 @@ public class NoteDetailsActivity extends BaseActivity<ActivityNoteDetailsBinding
                 //finish();
 
                 showLoading();
-                Call<Void> call = mainApi.deleteNote(getBearerToken(), note.getId());
+                Call<Void> call = mainApi.deleteNote( note.getId());
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {

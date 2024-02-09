@@ -78,20 +78,9 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
         }
 
 
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = new OkHttpClient().newBuilder().addInterceptor(logging).build();
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.note.annyong.store")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-
-
-        mainApi = retrofit.create(MainApi.class);
+        //mainApi = retrofit.create(MainApi.class);
+        mainApi = ApiService.provideApi(MainApi.class, this);
 
 
     }
