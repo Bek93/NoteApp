@@ -2,6 +2,7 @@ package com.beknumonov.noteapp2.base;
 
 import android.content.Context;
 
+import com.beknumonov.noteapp2.BuildConfig;
 import com.beknumonov.noteapp2.model.User;
 import com.beknumonov.noteapp2.remote.MainApi;
 import com.beknumonov.noteapp2.util.PreferencesManager;
@@ -25,8 +26,10 @@ public class ApiService {
     private static Retrofit provideRetrofit(Context context) {
 
         if (mRetrofit == null) {
+
+            String base_url = BuildConfig.BASE_URL;
             mRetrofit = new Retrofit.Builder()
-                    .baseUrl("http://api.note.annyong.store")
+                    .baseUrl(base_url)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(provideOkHttpClient(context))
                     .build();

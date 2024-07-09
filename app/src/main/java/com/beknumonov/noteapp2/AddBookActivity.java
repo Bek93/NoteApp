@@ -116,7 +116,7 @@ public class AddBookActivity extends BaseActivity<ActivityAddBookBinding> {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        addressActionListener.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             Uri selectImageUri = data.getData();
             binding.bookImageView.setImageURI(selectImageUri);
